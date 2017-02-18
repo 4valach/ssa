@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<head>
+</head>
+<body>
+
+	<div class="container">
+		
+		<div class="row">
+			<form wicket:id="formAddAuthor" class="form-group">
+				<div>
+
+
+					<span wicket:id="nameAthorLabel" class="form-control">[name]</span>
+					<input wicket:id="nameAuthor" type="text" class="form-control"></input> 
+
+					<span wicket:id="dateBirthLabel" class="form-control">[date]</span>
+					<input wicket:id="dateBirth" type="text" class="form-control"></input>
+
+					<input type="submit" class="btn btn-primary">
+
+				</div>
+			</form>
+			<div class = "alert-info" wicket:id ="feedbackMessage">
+			[feedbackMessage]
+			
+			</div>
+			
+		
+			<div class="btn btn-link">
+				<a wicket:id="signUpLink" alt="[SignUp]" ><wicket:message key="linkTextSignUp"></wicket:message></a>
+			</div>
+			
+		</div>
+	</div>
+</body>
+</html>
