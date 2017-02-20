@@ -12,15 +12,29 @@
 			</div>
 		</div>
 		<div class="row">
-		
+			<form wicket:id="formLogin" class="form-group">
+				<div>
+
+
+					<span wicket:id="nameLabel" class="form-control">[userLabel]</span>
+					<input wicket:id="name" type="text" class="form-control"></input> 
+					<!-- <input type="text" value="user"></input>  -->
+					<span wicket:id="passwordLabel" class="form-control">[passwordLabel]</span>
+					<input wicket:id="password" type="text" class="form-control"></input>
+					<!-- <input type="password" value="user"></input>  -->
+					<input type="submit" class="btn btn-primary">
+
+				</div>
+			</form>
 			
-		<a wicket:id="linkAddAuthor"> añadir un nuevo autor</a>	
-				
-		<a wicket:id="linkAddBook"> añadir un nuevo libro</a>	
-		
-		<a wicket:id="linkListAuthor"> Buscar un autor</a>	
-				
-		<a wicket:id="linkListBook"> Buscar un libro</a>	
+			<div class="alert-info" wicket:id="feedbackMessage">[feedbackMessage]</div>
+			
+			<div class="btn btn-link">
+				<a wicket:id="instructionLink" alt="[instrucciones]" ><wicket:message key="linkTextInstruction"></wicket:message></a>
+			</div>
+			<div class="btn btn-link">
+				<a wicket:id="signUpLink" alt="[SignUp]" ><wicket:message key="linkTextSignUp"></wicket:message></a>
+			</div>
 		</div>
 	</div>
 </body>

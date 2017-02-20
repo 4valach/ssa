@@ -18,7 +18,6 @@ import org.wicketstuff.annotation.mount.MountPath;
 import de.agilecoders.wicket.core.markup.html.bootstrap.heading.Heading;
 import es.gorka.edu.dto.UserDTO;
 import es.gorka.edu.models.Author;
-import es.gorka.edu.models.Book;
 import es.gorka.edu.service.UserService;
 
 @MountPath("home.html")

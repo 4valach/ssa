@@ -23,7 +23,7 @@ public class Book {
 	public String getIsbn() {
 		return isbn;
 	}
-	public void setIsbn(String isbn) {
+	public void setNameAuthor(String isbn) {
 		this.isbn = isbn;
 	}
 	
