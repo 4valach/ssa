@@ -1,6 +1,6 @@
 package es.gorka.edu.models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Author {
 	private String nameAuthor;

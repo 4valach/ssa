@@ -19,26 +19,51 @@ import de.agilecoders.wicket.core.markup.html.bootstrap.heading.Heading;
 import es.gorka.edu.dto.UserDTO;
 import es.gorka.edu.models.Author;
 import es.gorka.edu.models.Book;
+import es.gorka.edu.service.BookService;
 import es.gorka.edu.service.UserService;
 
 @MountPath("home.html")
 public class AddNewBook extends WebPage  {
 
-	private static final Logger logger = LogManager.getLogger(AddNewAuthor.class.getName());
-
 	
+	@SpringBean
+	BookService bookService;
+	
+	@SpringBean
+	Book book;
 
+	Form<Book> formBook = new Form<Book>("formAddNewBook", new CompoundPropertyModel<Book>(book)){
 
-		Form form = new Form("formAddAuthor", new CompoundPropertyModel(new Book()));
+		private static final long serialVersionUID = 42L;
+
+		@Override
+		protected void onSubmit()
+		{
+			super.onSubmit();
+			boolean isInserted = authorService.insertNewBook(getModelObject());
+			FeedbackMessage message;
+			
+			if(isInserted)
+			{
+				message = new FeedbackMessage(this, "libro insertado, se feliz", FeedbackMessage.INFO);	
+			} 
+			else
+			{
+				message = new FeedbackMessage(this, "No se pudo insertar, repasa que esta mal", FeedbackMessage.INFO);
+			}
+			
+			getFeedbackMessages().add(message);
+		}
+	};
 		
 		
-			form.add(new Label("nameBookLabel", getString("book.name")));
-			form.add(new Label("nameAuthorLabel", getString("author.name")));
-			form.add(new Label("ISBNLabel", getString("isbn.number")));
+		formBook.add(new Label("nameBookLabel", getString("book.name")));
+		formBook.add(new Label("nameAuthorLabel", getString("author.name")));
+		formBook.add(new Label("ISBNLabel", getString("isbn.number")));
 
-			form.add(new RequiredTextField("nameBook"));
-			form.add(new RequiredTextField("nameAuthor"));
-			form.add(new RequiredTextField("isbn"));
+		formBook.add(new RequiredTextField("nameBook"));
+		formBook.add(new RequiredTextField("nameAuthor"));
+		formBook.add(new RequiredTextField("isbn"));
 
 			
 			FeedbackPanel feedbackPanel = new FeedbackPanel("feedbackMessage");
