@@ -31,16 +31,17 @@ public class AddNewBook extends WebPage  {
 	
 	@SpringBean
 	Book book;
-
+	
+	public AddNewBook() {
 	Form<Book> formBook = new Form<Book>("formAddNewBook", new CompoundPropertyModel<Book>(book)){
-
-		private static final long serialVersionUID = 42L;
+	
+	private static final long serialVersionUID = 42L;
 
 		@Override
 		protected void onSubmit()
 		{
 			super.onSubmit();
-			boolean isInserted = authorService.insertNewBook(getModelObject());
+			boolean isInserted = bookService.insertNewBook(getModelObject());
 			FeedbackMessage message;
 			
 			if(isInserted)
@@ -56,7 +57,6 @@ public class AddNewBook extends WebPage  {
 		}
 	};
 		
-		
 		formBook.add(new Label("nameBookLabel", getString("book.name")));
 		formBook.add(new Label("nameAuthorLabel", getString("author.name")));
 		formBook.add(new Label("ISBNLabel", getString("isbn.number")));
@@ -66,16 +66,15 @@ public class AddNewBook extends WebPage  {
 		formBook.add(new RequiredTextField("isbn"));
 
 			
-			FeedbackPanel feedbackPanel = new FeedbackPanel("feedbackMessage");
-			feedbackPanel.setOutputMarkupId(true);
-			add(feedbackPanel);
+		FeedbackPanel feedbackPanel = new FeedbackPanel("feedbackMessage");
+		feedbackPanel.setOutputMarkupId(true);
+		add(feedbackPanel);
 			
-			add(form);
+		add(formBook);
 		
 		
 		
 		
 	}
-
-
 }
+

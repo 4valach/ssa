@@ -20,6 +20,10 @@ public class BookService {
 			return true;
 		}
 		
+		public ArrayList findBooks(Book book) {
+			return repository.findBooks(book);
+		}
+		
 	
 
 }

@@ -33,8 +33,8 @@ public class AddNewAuthor extends WebPage  {
 
 	@SpringBean
 	Author author;
-
-	private static final Logger logger = LogManager.getLogger(AddNewAuthor.class.getName());
+	public AddNewAuthor(){
+	final Logger logger = LogManager.getLogger(AddNewAuthor.class.getName());
 
 	
 
@@ -69,7 +69,7 @@ public class AddNewAuthor extends WebPage  {
 			formAuthor.add(new Label("dateBirthLabel", getString("date.birth")));
 			formAuthor.add(new RequiredTextField("nameAuthor"));
 			DateTextField  datetimePicker = new DateTextField( "dateBirth","yyyy-MM-dd");
-			formAuthor.add(datetimePicker)
+			formAuthor.add(datetimePicker);
 			FeedbackPanel feedbackPanel = new FeedbackPanel("feedbackMessage");
 			feedbackPanel.setOutputMarkupId(true);
 			add(feedbackPanel);
@@ -78,8 +78,8 @@ public class AddNewAuthor extends WebPage  {
 		
 		
 		
-		
+		}
 	}
 
 
-}
+

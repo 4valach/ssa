@@ -3,6 +3,8 @@ package es.gorka.edu.repository;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.logging.log4j.LogManager;
@@ -40,6 +42,12 @@ public class BookRepository {
 		throw new RuntimeException(e);
 		}
 
+	}
+
+
+	public ArrayList findBooks(Book book) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
