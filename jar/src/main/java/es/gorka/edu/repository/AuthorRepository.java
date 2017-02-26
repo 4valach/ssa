@@ -3,6 +3,7 @@ package es.gorka.edu.repository;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -42,8 +43,31 @@ public class AuthorRepository {
 	}
 
 	public ArrayList findAuthor(Author author) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Author> list = new ArrayList<Author>();
+		ResultSet resultSet = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		
+		
+		try {
+			connection = conManager.open();
+			preparedStatement = connection.prepareStatement("SELECT * FROM AUTHOR WHERE nameAuthor LIKE ? OR dateOfBirth = ?");
+			preparedStatement.setString(1, "%" + author.getNameAuthor() + "%");
+			preparedStatement.setDate(2, author.getDateBirth());
+			resultSet = preparedStatement.executeQuery();
+			
+			while (resultSet.next()) {
+				Author author1 = new Author();
+				author1.setNameAuthor(resultSet.getString(1));
+				author1.setDateBirth(resultSet.getDate(2));
+				list.add( author1);
+			}
+			
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return list;
 	}
 
 }

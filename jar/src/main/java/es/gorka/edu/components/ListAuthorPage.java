@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -34,10 +35,11 @@ public class ListAuthorPage extends WebPage {
 	private String nameAuthorActual = null;
 
 	private List listAuthor = Collections.emptyList();
+	private String date = null;
 
 	public ListAuthorPage(PageParameters parameters) {
 		nameAuthorActual = parameters.get("currentSearchTerm").toString();
-		logger.debug("Cargando la pagina con el parametro " + nameAuthorActual);
+		date = parameters.get("date").toString();
 		initComponents();
 	}
 
@@ -60,11 +62,19 @@ public class ListAuthorPage extends WebPage {
 				super.onSubmit();
 				listAuthor.clear();
 				PageParameters pageParameters = new PageParameters();
+				if(((Author) getModelObject()).getNameAuthor() != null)
+				pageParameters.add("authorName", ((Author) getModelObject()).getNameAuthor());
+				
+				if(((Author) getModelObject()).getDateBirth() != null)
+				pageParameters.add("date", ((Author) getModelObject()).getDateBirth());
+				
 				pageParameters.add("currentSearchTerm", ((Author) getModelObject()).getNameAuthor());
 				setResponsePage(ListAuthorPage.class, pageParameters);
 			}
 		};
 		form.add(new TextField("nameAuthor"));
+		DateTextField  datetimePicker = new DateTextField ("dateOfBirth", "yyyy-MM-dd");
+		form.add(datetimePicker);
 		add(form);
 	}
 	
@@ -75,14 +85,26 @@ public class ListAuthorPage extends WebPage {
 
 
 	private void addListAuthorView() {
-		Author author = new Author();// service.newEntity()
+		Author author = new Author();
 		author.setNameAuthor(nameAuthorActual);
-		listAuthor = service.searchAll(author);
+		
+		if(nameAuthorActual != null)
+		author.setNameAuthor(nameAuthorActual);
+		
+		if(date != null)
+		{
+		java.sql.Date sqlDate = java.sql.Date.valueOf(date);
+		author.setDateBirth(sqlDate);
+		}
+		
+		
+		
 		ListView listview = new ListView("author-group", listAuthor) {
 			@Override
 			protected void populateItem(ListItem item) {
 				Author author = (Author) item.getModelObject();
-				item.add(new Label("nameAuthor", author.getNameAuthor()));
+				item.add(new Label("authorName", author.getNameAuthor()));
+				item.add(new Label("dateOfBirth", author.getDateBirth()));
 			}
 		};
 		add(listview);

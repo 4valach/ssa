@@ -27,20 +27,26 @@ import es.gorka.edu.service.UserService;
 
 public class ListBookPage extends WebPage {
 	
-	private static final long serialVersionUID = -1935854748907274886L;
+	private static final long serialVersionUID = 42L;
 
 	@SpringBean
 	BookService service;
-
+	
+	
 	private static final Logger logger = LogManager.getLogger(ListBookPage.class.getName());
 
-	private String nameBookActual = null;
-
+	private String title = null;
+	private String author = null;
+	private String isbn = null;
+	
+	
 	private List listBook = Collections.emptyList();
 
 	public ListBookPage(PageParameters parameters) {
-		nameBookActual = parameters.get("currentSearchTerm").toString();
-		logger.debug("Cargando la pagina con el parametro " + nameBookActual);
+		title = parameters.get("title").toString();
+		author = parameters.get("author").toString();
+		isbn = parameters.get("isbn").toString();
+		
 		initComponents();
 	}
 
@@ -63,11 +69,21 @@ public class ListBookPage extends WebPage {
 				super.onSubmit();
 				listBook.clear();
 				PageParameters pageParameters = new PageParameters();
-				pageParameters.add("currentSearchTerm", ((Book) getModelObject()).getNameBook());
+				if(((Book) getModelObject()).getNameBook() != null)
+					pageParameters.add("title", ((Book) getModelObject()).getNameBook());
+				
+				if(((Book) getModelObject()).getIsbn() != null)
+					pageParameters.add("isbn", ((Book) getModelObject()).getIsbn());
+				
+				if(((Book) getModelObject()).getNameAuthor() != null)
+					pageParameters.add("author", ((Book) getModelObject()).getNameAuthor());
+				
 				setResponsePage(ListBookPage.class, pageParameters);
 			}
 		};
 		form.add(new TextField("nameBook"));
+		form.add(new TextField("ISBN"));
+		form.add(new TextField("nameAuthor"));
 		add(form);
 	}
 	
@@ -78,15 +94,26 @@ public class ListBookPage extends WebPage {
 
 
 	private void addListAuthorView() {
-		Book book = new Book();// service.newEntity()
-		book.setNameAuthor(nameBookActual);
-		listBook = service.searchAll(book);
-		ListView listview = new ListView("author-group", listBook) {
+		Book book = new Book();
+		if(title != null)
+			book.setNameBook(title);
+		if(isbn != null)
+			book.setIsbn(isbn);
+		if(author != null)
+			book.setNameAuthor(author);
+		listBook = service.findBooks(book);
+		ListView<Book> listview = new ListView<Book>("book-group", listBook) {
+			
+			private static final long serialVersionUID = 42L;
+
 			@Override
-			protected void populateItem(ListItem item) {
-				Book book = (Book) item.getModelObject();
-				item.add(new Label("nameBook", book.getNameBook()));
+			protected void populateItem(ListItem<Book> item) {
+				Book book = item.getModelObject();
+				item.add(new Label("title", book.getNameBook()));
+				item.add(new Label("isbn", book.getIsbn()));
+				item.add(new Label("author", book.getNameAuthor()));
 			}
+
 		};
 		add(listview);
 	}
